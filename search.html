@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mechanic Details</title>
+</head>
+<body>
+    <h1>Find a Mechanic</h1>
+    
+    <form id="search-form">
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location">
+        <button type="submit">Search</button>
+    </form>
+    
+    <div id="mechanic-list">
+        <!-- Mechanic details will be displayed here -->
+    </div>
+
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const location = document.getElementById('location').value;
+
+            // In a real system, you would send an HTTP request to a server to fetch mechanic data based on the location.
+            // For this example, we'll just simulate data retrieval.
+            const mechanicsData = [
+                { name: "Balaji Auto Repair", location: "saveetha nager" },
+                { name: "Murali Garage", location: "vijaysanthi" },
+                { name: "gokul Auto Services", location: "vijaysanthi 1st tower 9e" }
+            ];
+
+            const mechanicList = document.getElementById('mechanic-list');
+            mechanicList.innerHTML = '';
+
+            mechanicsData.forEach(function (mechanic) {
+                const mechanicItem = document.createElement('div');
+                mechanicItem.innerHTML = `
+                    <h2>${mechanic.name}</h2>
+                    <p>Location: ${mechanic.location}</p>
+                `;
+                mechanicList.appendChild(mechanicItem);
+            });
+        });
+    </script>
+</body>
+</html>

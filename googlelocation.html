@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Mechanics</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Nearby Mechanics</h1>
+    
+    <div id="map"></div>
+
+    <script>
+        var map;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 37.7749, lng: -122.4194 }, // Default map center (San Francisco, CA)
+                zoom: 15 // Default zoom level
+            });
+
+            // Initialize the Places service
+            var service = new google.maps.places.PlacesService(map);
+
+            // Request for nearby mechanics
+            var request = {
+                location: { lat: 37.7749, lng: -122.4194 }, // Use your preferred starting location
+                radius: 5000, // Search radius in meters (adjust as needed)
+                keyword: 'mechanic'
+            };
+
+            service.nearbySearch(request, function (results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    for (var i = 0; i < results.length; i++) {
+                        createMarker(results[i]);
+                    }
+                }
+            });
+        }
+
+        function createMarker(place) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: place.geometry.location,
+                title: place.name
+            });
+
+            var infowindow = new google.maps.InfoWindow({
+                content: '<strong>' + place.name + '</strong><br>' + place.vicinity
+            });
+
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+        }
+    </script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap"></script>
+</body>
+</html>
